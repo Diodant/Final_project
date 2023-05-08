@@ -1,0 +1,110 @@
+{% extends "default.html" %}
+
+{% load static %}
+{% block body %}
+
+{% if request.user.is_authenticated %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            {{ user.name }}
+        </div>
+        <h5 class="card-title">Проверьте комплектацию и технические характеристики техники Силант</h5>
+        <br>
+
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                <img class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none"
+               src="{% static 'img/info.png' %}" alt="Info" width="50" height="50">
+                Общая инфо
+            </button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+                <img class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none"
+               src="{% static 'img/maintenance.png' %}" alt="Maintenance" width="50" height="50">
+                ТО
+            </button>
+            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">
+                <img class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none"
+               src="{% static 'img/claims.png' %}" alt="Claims" width="50" height="50">
+                Рекламации
+            </button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+<!--            Общая инфо-->
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                <br>
+                <form method="GET">
+                  {% csrf_token %}
+                  {{ filter_auth_machine.form }}
+                  <input type="submit" value="Поиск"/>
+                </form>
+
+              {% if filter_auth_machine.qs|length %}
+                  <div class="container-fluid">
+                      {% include 'auth_card_machine.html' %}
+                  </div>
+              {% else %}
+                <p>Данные не найдены</p>
+              {% endif %}
+          </div>
+<!--            ТО-->
+          <div class="tab-pane fade " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+             <br>
+              <form method="GET">
+                  {% csrf_token %}
+                  {{ filter_auth_maintenance.form }}
+                  <input type="submit" value="Поиск"/>
+              </form>
+
+              {% if filter_auth_maintenance.qs|length %}
+                {% include 'auth_card_maintenance.html' %}
+              {% else %}
+                <p>Данные не найдены</p>
+              {% endif %}
+          </div>
+<!--            Рекламации-->
+          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+              <br>
+              <form method="GET">
+                  {% csrf_token %}
+                  {{ filter_auth_claim.form }}
+                  <input type="submit" value="Поиск"/>
+              </form>
+
+              {% if filter_auth_claim.qs|length %}
+                {% include 'auth_card_claim.html' %}
+              {% else %}
+                <p>Данные не найдены</p>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+</div>
+
+
+{% else %}
+    <div class="card" >
+      <div class="card-body">
+        <h5 class="card-title">Проверьте комплектацию и технические характеристики техники Силант</h5>
+          <br>
+          <form method="GET">
+              {% csrf_token %}
+              {{ filter.form }}
+              <input type="submit" value="Поиск"/>
+          </form>
+
+    <!--      <p>Результат поиска:</p>-->
+          <p class="card-text">Информация о комплектации и технических характеристиках Вашей техники</p>
+          {% if filter.qs|length %}
+            {% include 'non_auth_card.html' %}
+          {% else %}
+            <p>Данных о машине с таким заводским номером нет в системе</p>
+          {% endif %}
+      </div>
+    </div>
+{% endif %}
+
+{% endblock body %}

@@ -1,0 +1,43 @@
+<div class="table-responsive" style="overflow-y: hidden">
+<table class="table table-striped align-middle text-center">
+  <thead>
+    <tr>
+        <th scope="col">Зав. № машины:</th>
+        <th scope="col">Дата отказа:</th>
+        <th scope="col">Наработка, м/час:</th>
+        <th scope="col">Узел отказа:</th>
+        <th scope="col">Описание отказа:</th>
+        <th scope="col">Способ восстановления:</th>
+        <th scope="col">Используемые запасные части:</th>
+        <th scope="col">Дата восстановления:</th>
+        <th scope="col">Время простоя техники:</th>
+        <th scope="col">Сервисная компания:</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for claim in machine_claim %}
+  <tr>
+      <td>{{ claim.machine.factory_number_machine}}</td>
+      <td>{{ claim.date_of_rejection}}</td>
+      <td>{{ claim.operating_time}}</td>
+      <td>
+          <button type='button' class="btn" data-bs-toggle="popover" title="{{ claim.failure_node.name }}" data-bs-content="{{ claim.failure_node.description }}">
+              {{ claim.failure_node.name}}
+          </button>
+      </td>
+      <td>{{ claim.description_failure}}</td>
+      <td>
+          <button type='button' class="btn" data-bs-toggle="popover" title="{{ claim.recovery_method.name }}" data-bs-content="{{ claim.recovery_method.description }}">
+              {{ claim.recovery_method.name}}
+          </button>
+      </td>
+      <td>{{ claim.used_spare_parts}}</td>
+      <td>{{ claim.date_recovery}}</td>
+      <td>{{ claim.machine_downtime}}</td>
+      <td>{{ claim.machine.service_company.name}}</td>
+  </tr>
+
+  {% endfor %}
+  </tbody>
+</table>
+</div>

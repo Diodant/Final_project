@@ -1,0 +1,30 @@
+{% extends "default.html" %}
+
+{% block body %}
+
+<div class="card">
+  <div class="card-body">
+      <form method="POST" class="form-group">
+        {% csrf_token %}
+        <div class="row">
+          <table class="table align-middle text-finish">
+              {% for field in form %}
+              <tr>
+                <td>
+                  <div class="col">
+                    <strong>{{ field.label_tag }}</strong>
+                  </div>
+                  <div class="col">
+                    {{ field }}
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+        <input type="submit" value="Сохранить">
+      </form>
+  </div>
+</div>
+
+{% endblock body %}

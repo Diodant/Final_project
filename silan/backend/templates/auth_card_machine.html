@@ -1,0 +1,66 @@
+<div class="table-responsive" style="height: 450px">
+    <table class="table table-striped align-middle text-center">
+      <thead>
+        <tr>
+            <th scope="col">Зав. № машины:</th>
+            <th scope="col">Модель техники:</th>
+            <th scope="col">Модель двигателя:</th>
+            <th scope="col">Зав. № двигателя:</th>
+            <th scope="col">Модель трансмиссии:</th>
+            <th scope="col">Зав. № трансмиссии:</th>
+            <th scope="col">Модель ведущего моста:</th>
+            <th scope="col">Зав. № ведущего моста:</th>
+            <th scope="col">Модель управляемого моста:</th>
+            <th scope="col">Зав. № управляемого моста:</th>
+            <th scope="col">Договор поставки №, дата:</th>
+            <th scope="col">Дата отгрузки с завода:</th>
+            <th scope="col">Грузополучатель (конечный потребитель):</th>
+            <th scope="col">Адрес поставки (эксплуатации):</th>
+            <th scope="col">Комплектация (доп. опции):</th>
+            <th scope="col">Клиент:</th>
+            <th scope="col">Сервисная компания:</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for machine in filter_auth_machine.qs %}
+      <tr>
+
+          <td><a href="{% url 'machine_detail' machine.id %}">{{ machine.factory_number_machine}}</a></td>
+          <td>
+              {{ machine.models_machine.name}}
+          </td>
+          <td>
+              {{ machine.models_engine.name}}
+          </td>
+          <td>
+              {{ machine.factory_number_engine}}
+          </td>
+          <td>
+              {{ machine.model_transmission.name}}
+          </td>
+          <td>
+              {{ machine.factory_number_transmission}}
+          </td>
+          <td>
+              {{ machine.models_drive_axle.name}}
+          </td>
+          <td>
+              {{ machine.factory_number_drive_axle}}
+          </td>
+          <td>
+              {{ machine.models_steering_bridge.name}}
+          </td>
+          <td>{{ machine.factory_number_steering_bridge }}</td>
+          <td>{{ machine.supply_contract }}</td>
+          <td>{{ machine.date_of_shipment }}</td>
+          <td>{{ machine.consumer }}</td>
+          <td>{{ machine.delivery_address }}</td>
+          <td>{{ machine.equipment }}</td>
+          <td>{{ machine.client }}</td>
+          <td>{{ machine.service_company }}</td>
+      </tr>
+
+      {% endfor %}
+      </tbody>
+    </table>
+</div>
